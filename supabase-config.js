@@ -11,6 +11,7 @@ const SUPABASE_ANON_KEY = "sb_publishable_Z2YQhzZn06YZIQOF8a85aw_igliR3P3";
 const PROCESSES = [
   { key: "invoicing", label: "Invoicing", roles: ["Finance", "Project Manager", "Director"] },
   { key: "project_budgets", label: "Project budgets", roles: ["Finance", "Project Manager", "Director"] },
+  { key: "business_development", label: "Business development / closing new contracts", roles: ["Project Manager", "Director"] },
   { key: "etransfers", label: "E-transfers", roles: ["Director"] },
   { key: "payroll", label: "Payroll", roles: ["Director"] },
   { key: "taxes", label: "Taxes", roles: ["Director"] },
