@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tamarack Process Survey</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="masthead">
+      <div class="brand">
+        <img class="brand-mark" src="tamaTree.jpeg" alt="Tamarack" onerror="this.style.display='none'" />
+        <div>
+          <h1>Tamarack Process Survey</h1>
+          <p class="subtitle">Help us prioritize what to fix first.</p>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <form id="survey">
+        <p class="intro">
+          This survey is <strong>anonymous</strong> and takes about 5 minutes. Rate how
+          well our internal processes work for you so leadership can focus on the ones
+          that hurt most.
+        </p>
+
+        <div class="field">
+          <label class="block" for="role">Your role <span class="hint">(optional)</span></label>
+          <select id="role" name="role">
+            <option value="">Prefer not to say</option>
+          </select>
+        </div>
+
+        <section class="block-section">
+          <h2>Rate each process</h2>
+          <p class="hint">1 = works terribly · 5 = works great</p>
+          <div id="process-grid"></div>
+        </section>
+
+        <section class="block-section">
+          <h2>Top 3 priorities to fix</h2>
+          <p class="hint">Pick the three processes leadership should tackle first. Each must be different.</p>
+          <div class="field">
+            <label class="block" for="rank1">#1 most important</label>
+            <select id="rank1" name="rank1" class="rank-select"></select>
+          </div>
+          <div class="field">
+            <label class="block" for="rank2">#2</label>
+            <select id="rank2" name="rank2" class="rank-select"></select>
+          </div>
+          <div class="field">
+            <label class="block" for="rank3">#3</label>
+            <select id="rank3" name="rank3" class="rank-select"></select>
+          </div>
+        </section>
+
+        <section class="block-section">
+          <h2>Client-facing risk</h2>
+          <p class="hint">Has an internal-process problem ever caused an issue a client saw or was affected by?</p>
+          <div class="radio-row" id="risk-row">
+            <label data-val="yes"><input type="radio" name="risk" value="yes" />Yes</label>
+            <label data-val="no"><input type="radio" name="risk" value="no" />No</label>
+          </div>
+          <div class="field" id="risk-detail-wrap" hidden style="margin-top:12px;">
+            <label class="block" for="risk-detail">What happened? <span class="hint">(optional)</span></label>
+            <textarea id="risk-detail" name="risk-detail"></textarea>
+          </div>
+        </section>
+
+        <p class="error-msg" id="error" hidden></p>
+        <button type="submit" class="submit" id="submit-btn">Submit survey</button>
+      </form>
+
+      <div class="thanks" id="thanks" hidden>
+        <h2>Thanks — submitted.</h2>
+        <p>Here's the current state across everyone so far. Feel free to take it again as a
+          different cohort.</p>
+        <button type="button" class="submit" onclick="location.reload()"
+          style="max-width:320px;margin:16px auto 0;">Submit another response</button>
+        <div id="live-results" style="text-align:left;margin-top:26px;"></div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <img src="eel.jpg" alt="" class="footer-eel" onerror="this.style.display='none'" />
+      <p>Tamarack · internal use only</p>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="results.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

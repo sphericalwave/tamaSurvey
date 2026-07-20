@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tamarack Survey — Results</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="masthead">
+      <div class="brand">
+        <img class="brand-mark" src="tamaTree.jpeg" alt="Tamarack" onerror="this.style.display='none'" />
+        <div>
+          <h1>Survey Results</h1>
+          <p class="subtitle">Live aggregate view · <a class="nav-link" href="index.html">take the survey</a></p>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div id="results-root"></div>
+      <p class="hint" style="margin-top:22px;">
+        Aggregates only — individual written answers are not shown here. Refresh to update.
+      </p>
+    </main>
+
+    <footer class="site-footer">
+      <img src="eel.jpg" alt="" class="footer-eel" onerror="this.style.display='none'" />
+      <p>Tamarack · internal use only</p>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="results.js"></script>
+</body>
+</html>
