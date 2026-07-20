@@ -27,9 +27,9 @@
         </p>
 
         <div class="field">
-          <label class="block" for="role">Your role <span class="hint">(optional)</span></label>
+          <label class="block" for="role">Your cohort</label>
           <select id="role" name="role">
-            <option value="">Prefer not to say</option>
+            <option value="" disabled selected>Select your cohort…</option>
           </select>
         </div>
 
@@ -66,6 +66,15 @@
           <div class="field" id="risk-detail-wrap" hidden style="margin-top:12px;">
             <label class="block" for="risk-detail">What happened? <span class="hint">(optional)</span></label>
             <textarea id="risk-detail" name="risk-detail"></textarea>
+          </div>
+        </section>
+
+        <section class="block-section">
+          <h2>Travel planning</h2>
+          <p class="hint">How we book and coordinate travel is new territory — your ideas shape it.</p>
+          <div class="field">
+            <textarea id="travel" name="travel" rows="4"
+              placeholder="We'd love your take — what would make planning and booking work travel easier? Any suggestion, big or small, helps."></textarea>
           </div>
         </section>
 

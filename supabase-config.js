@@ -7,9 +7,13 @@ const SUPABASE_URL = "https://obioljjwzvjydulynhuy.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_Z2YQhzZn06YZIQOF8a85aw_igliR3P3";
 
 // Single source of truth for process keys + display labels. Keys must match the DB.
+// `roles`, when present, restricts a process card to those cohorts only.
 const PROCESSES = [
-  { key: "invoicing", label: "Invoicing" },
-  { key: "project_budgets", label: "Project budgets" },
+  { key: "invoicing", label: "Invoicing", roles: ["Finance", "Project Manager", "Director"] },
+  { key: "project_budgets", label: "Project budgets", roles: ["Finance", "Project Manager", "Director"] },
+  { key: "etransfers", label: "E-transfers", roles: ["Director"] },
+  { key: "payroll", label: "Payroll", roles: ["Director"] },
+  { key: "taxes", label: "Taxes", roles: ["Director"] },
   { key: "expense_input", label: "Expense input / entry" },
   { key: "equipment_log", label: "Equipment log" },
   { key: "file_collaboration", label: "File collaboration / sharing" },

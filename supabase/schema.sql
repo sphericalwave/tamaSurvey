@@ -33,15 +33,23 @@ create table if not exists survey_client_risk (
   detail text
 );
 
+create table if not exists survey_travel_suggestions (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  role text,
+  suggestion text not null
+);
+
 -- ---------------------------------------------------------------------------
 -- Row Level Security: anon may INSERT only. No anon SELECT on base tables,
 -- so raw text answers (pain_point, desired_change, detail) are never readable
 -- with the public anon key.
 -- ---------------------------------------------------------------------------
 
-alter table survey_responses   enable row level security;
-alter table survey_priorities  enable row level security;
-alter table survey_client_risk enable row level security;
+alter table survey_responses          enable row level security;
+alter table survey_priorities         enable row level security;
+alter table survey_client_risk        enable row level security;
+alter table survey_travel_suggestions enable row level security;
 
 drop policy if exists anon_insert on survey_responses;
 create policy anon_insert on survey_responses
@@ -53,6 +61,10 @@ create policy anon_insert on survey_priorities
 
 drop policy if exists anon_insert on survey_client_risk;
 create policy anon_insert on survey_client_risk
+  for insert to anon with check (true);
+
+drop policy if exists anon_insert on survey_travel_suggestions;
+create policy anon_insert on survey_travel_suggestions
   for insert to anon with check (true);
 
 -- ---------------------------------------------------------------------------

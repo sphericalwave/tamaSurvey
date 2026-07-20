@@ -42,9 +42,14 @@ finished look.
    `.../results.html`.
 
 ## Notes
-- Roles / cohorts (Project Manager, Project Associate, Director, Finance, Admin) live in
-  `ROLES` in `supabase-config.js`. There is a `// TODO` there for wiring these from the
-  other Tamarack app later if it exposes a staff list.
+- Cohort is required. Options (Project Manager, Project Associate, Director, Finance,
+  Admin) live in `ROLES` in `supabase-config.js`; there's a `// TODO` for wiring these
+  from the other Tamarack app later if it exposes a staff list.
+- **Invoicing** and **Project budgets** only appear for the Finance, Project Manager, and
+  Director cohorts (set via `roles` on those entries in `PROCESSES`). Other cohorts don't
+  see or rate them, and they're excluded from that cohort's priority ranking.
+- The **Travel planning** free-text suggestions land in `survey_travel_suggestions` (raw
+  text, not shown on the results page — read it from the Supabase dashboard).
 - Brand colors are `:root` CSS variables at the top of `style.css` — swap the four hex
   values when final brand colors are confirmed.
 

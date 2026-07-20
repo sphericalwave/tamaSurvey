@@ -41,6 +41,7 @@ const grid = document.getElementById("process-grid");
 for (const p of PROCESSES) {
   const card = document.createElement("div");
   card.className = "process-card";
+  card.dataset.process = p.key;
   card.innerHTML =
     `<h3>${p.label}</h3>` +
     `<span class="q-label">How well does it work?</span>` +
@@ -68,13 +69,37 @@ for (const p of PROCESSES) {
   });
 }
 
-// --- Priority ranking dropdowns ---------------------------------------------
-const rankSelects = [...document.querySelectorAll(".rank-select")];
-for (const sel of rankSelects) {
-  sel.innerHTML =
-    `<option value="">Select a process…</option>` +
-    PROCESSES.map((p) => `<option value="${p.key}">${p.label}</option>`).join("");
+// --- Role-driven visibility --------------------------------------------------
+// Some processes (invoicing, project budgets) are only relevant to certain cohorts.
+function visibleProcesses() {
+  const role = roleSelect.value;
+  return PROCESSES.filter((p) => !p.roles || p.roles.includes(role));
 }
+
+const rankSelects = [...document.querySelectorAll(".rank-select")];
+
+// Show/hide restricted cards and rebuild ranking options for the current cohort.
+function refreshForRole() {
+  const visible = visibleProcesses();
+  const visibleKeys = new Set(visible.map((p) => p.key));
+
+  document.querySelectorAll("#process-grid .process-card").forEach((card) => {
+    card.hidden = !visibleKeys.has(card.dataset.process);
+  });
+
+  // Rebuild ranking dropdowns to only offer visible processes, preserving any
+  // still-valid selection.
+  for (const sel of rankSelects) {
+    const prev = visibleKeys.has(sel.value) ? sel.value : "";
+    sel.innerHTML =
+      `<option value="">Select a process…</option>` +
+      visible.map((p) => `<option value="${p.key}">${p.label}</option>`).join("");
+    sel.value = prev;
+  }
+}
+
+roleSelect.addEventListener("change", refreshForRole);
+refreshForRole();
 
 // --- Client-facing risk radios (styling + detail reveal) --------------------
 const riskRow = document.getElementById("risk-row");
@@ -89,11 +114,12 @@ riskRow.querySelectorAll('input[name="risk"]').forEach((radio) => {
 
 // --- Validation + collect ----------------------------------------------------
 function collect() {
-  const role = roleSelect.value || null;
+  const role = roleSelect.value;
+  if (!role) return { error: "Please select your cohort." };
 
-  // Per-process rows. Satisfaction + time lost required for each.
+  // Per-process rows. Satisfaction + time lost required for each visible process.
   const responseRows = [];
-  for (const p of PROCESSES) {
+  for (const p of visibleProcesses()) {
     const sat = form.querySelector(`input[name="sat_${p.key}"]:checked`);
     const time = form.querySelector(`select[name="time_${p.key}"]`).value;
     if (!sat) return { error: `Please rate "${p.label}".` };
@@ -127,7 +153,11 @@ function collect() {
       : null,
   };
 
-  return { responseRows, priorityRows, riskRow };
+  // Travel planning: optional free-text suggestion. Only stored if they wrote something.
+  const travelText = document.getElementById("travel").value.trim();
+  const travelRow = travelText ? { role, suggestion: travelText } : null;
+
+  return { responseRows, priorityRows, riskRow, travelRow };
 }
 
 // --- Submit ------------------------------------------------------------------
@@ -147,11 +177,15 @@ form.addEventListener("submit", async (e) => {
   submitBtn.textContent = "Submitting…";
 
   try {
-    const results = await Promise.all([
+    const inserts = [
       sb.from("survey_responses").insert(data.responseRows),
       sb.from("survey_priorities").insert(data.priorityRows),
       sb.from("survey_client_risk").insert(data.riskRow),
-    ]);
+    ];
+    if (data.travelRow) {
+      inserts.push(sb.from("survey_travel_suggestions").insert(data.travelRow));
+    }
+    const results = await Promise.all(inserts);
     const failed = results.find((r) => r.error);
     if (failed) throw failed.error;
 
