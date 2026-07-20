@@ -48,6 +48,28 @@ header.masthead {
   flex: 0 0 auto;
 }
 
+.results-toolbar {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+}
+.demo-btn {
+  display: inline-block;
+  padding: 9px 18px;
+  border: 1px solid var(--forest);
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--forest);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.demo-btn:hover {
+  background: var(--forest);
+  color: var(--white);
+}
+
 .site-footer {
   margin-top: 48px;
   padding-top: 18px;
@@ -61,7 +83,7 @@ header.masthead {
   max-width: 100%;
   width: 320px;
   height: auto;
-  margin: 0 auto 10px;
+  margin: 0 0 10px;
   border-radius: var(--radius);
 }
 
